@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nabeela: The CEO of Trouble - Time Travel Capsule</title>
+​<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- FontAwesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+<!-- Canvas Confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+​<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+sepia: {
+50: '#faf7f2',
+100: '#f4ede2',
+200: '#e7d8c3',
+300: '#d7bea0',
+700: '#7a5a3a',
+800: '#5c4127',
+900: '#3e2a17'
+},
+rosewood: {
+100: '#ffe4e6',
+400: '#fb7185',
+600: '#e11d48',
+800: '#9f1239'
+}
+},
+fontFamily: {
+handwriting: ['"Dancing Script"', 'cursive'],
+casual: ['"Caveat"', 'cursive'],
+romantic: ['"Sacramento"', 'cursive'],
+sans: ['"Plus Jakarta Sans"', 'sans-serif']
+}
+}
+}
+}
+</script>
+​<style>
+body {
+background-color: #faf7f2;
+color: #3e2a17;
+overflow-x: hidden;
+font-family: 'Plus Jakarta Sans', sans-serif;
+}
+​.paper-texture {
+background-image: radial-gradient(#d7bea0 0.75px, transparent 0.75px), radial-gradient(#d7bea0 0.75px, #faf7f2 0.75px);
+background-size: 30px 30px;
+background-position: 0 0, 15px 15px;
+}
+​.corkboard {
+background-color: #d2a679;
+background-image: radial-gradient(rgba(0,0,0,0.15) 1px, transparent 0);
+background-size: 12px 12px;
+box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.3);
+}
+​/* 3D Flip Card for Memory Reels */
+.flip-card {
+perspective: 1000px;
+}
+​.flip-card-inner {
+position: relative;
+width: 100%;
+height: 100%;
+transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+transform-style: preserve-3d;
+}
+​.flip-card.flipped .flip-card-inner {
+transform: rotateY(180deg);
+}
+​.flip-card-front, .flip-card-back {
+position: absolute;
+width: 100%;
+height: 100%;
+-webkit-backface-visibility: hidden;
+backface-visibility: hidden;
+border-radius: 1rem;
+}
+​.flip-card-back {
+transform: rotateY(180deg);
+}
+​/* Envelope Styling */
+.envelope-wrapper {
+perspective: 1000px;
+}
+​.envelope {
+position: relative;
+width: 100%;
+height: 220px;
+background: #e7d8c3;
+border-radius: 12px;
+box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15);
+transition: transform 0.4s ease, box-shadow 0.4s ease;
+cursor: pointer;
+}
+​.envelope:hover {
+transform: translateY(-8px) scale(1.02);
+box-shadow: 0 20px 30px -10px rgba(0,0,0,0.25);
+}
+​.envelope-flap {
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+border-left: 135px solid transparent;
+border-right: 135px solid transparent;
+border-top: 95px solid #d7bea0;
+transform-origin: top;
+transition: transform 0.5s ease;
+z-index: 10;
+}
+​@media (min-width: 640px) {
+.envelope-flap {
+border-left-width: 155px;
+border-right-width: 155px;
+border-top-width: 105px;
+}
+}
+​.wax-seal {
+position: absolute;
+top: 70px;
+left: 50%;
+transform: translateX(-50%);
+width: 44px;
+height: 44px;
+background: radial-gradient(circle, #e11d48 0%, #9f1239 100%);
+border-radius: 50%;
+box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+z-index: 15;
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+font-size: 16px;
+border: 2px solid #fb7185;
+}
+​@keyframes shake {
+0%, 100% { transform: translateX(0); }
+20%, 60% { transform: translateX(-10px); }
+40%, 80% { transform: translateX(10px); }
+}
+​.animate-shake {
+animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+​@keyframes float {
+0%, 100% { transform: translateY(0px) rotate(0deg); }
+50% { transform: translateY(-10px) rotate(2deg); }
+}
+​.floating {
+animation: float 4s ease-in-out infinite;
+}
+​::-webkit-scrollbar {
+width: 8px;
+}
+::-webkit-scrollbar-track {
+background: #f4ede2;
+}
+::-webkit-scrollbar-thumb {
+background: #d7bea0;
+border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+background: #7a5a3a;
+}
+​.polaroid-1 { transform: rotate(-3deg); }
+.polaroid-2 { transform: rotate(2deg); }
+.polaroid-3 { transform: rotate(-1deg); }
+.polaroid-4 { transform: rotate(4deg); }
+​.polaroid-1:hover, .polaroid-2:hover, .polaroid-3:hover, .polaroid-4:hover {
+transform: rotate(0deg) scale(1.05);
+z-index: 20;
+transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+</style>
+</head>
+<body class="paper-texture min-h-screen relative selection:bg-rosewood-100 selection:text-rosewood-800">
+​<!-- FLOATING BACKGROUND DECOR -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30">
+<i class="fa-solid fa-heart text-rosewood-400 text-3xl absolute top-12 left-10 floating"></i>
+<i class="fa-solid fa-clock text-sepia-300 text-4xl absolute top-1/4 right-12 floating" style="animation-delay: 1s;"></i>
+<i class="fa-solid fa-sparkles text-amber-400 text-2xl absolute bottom-1/3 left-16 floating" style="animation-delay: 2s;"></i>
+<i class="fa-solid fa-envelope text-sepia-300 text-3xl absolute bottom-12 right-20 floating" style="animation-delay: 1.5s;"></i>
+</div>
+​<!-- ========================================== -->
+<!-- 1. LANDING SCREEN -->
+<!-- ========================================== -->
+<section id="landing-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-sepia-100/95 backdrop-blur-md px-6 text-center transition-opacity duration-1000">
+<div class="max-w-xl w-full bg-sepia-50 p-8 sm:p-12 rounded-3xl shadow-2xl border-4 border-sepia-200 relative overflow-hidden">
+<div class="absolute top-4 right-4 text-sepia-300 text-4xl transform rotate-12 pointer-events-none opacity-40">
+<i class="fa-solid fa-stamp"></i>
+</div>
+​<div class="inline-block p-4 rounded-full bg-rosewood-100 text-rosewood-600 mb-6 animate-bounce">
+<i class="fa-solid fa-crown text-4xl"></i>
+</div>
+​<h1 class="font-romantic text-5xl sm:text-7xl text-sepia-900 mb-2 leading-tight">
+Nabeela
+</h1>
+<p class="font-casual text-2xl sm:text-3xl text-rosewood-600 font-bold mb-4">
+👑 The CEO of Trouble 👑
+</p>
+<p class="font-casual text-2xl sm:text-3xl text-sepia-700 mb-8 font-bold">
+Oye zaiboon bee, ready to travel back in time? ⏳✨
+</p>
+​<div class="flex flex-col sm:flex-row items-center justify-center gap-4 relative min-h-[100px]">
+<button id="btn-yes" onclick="enterMemoryCapsule()" class="w-full sm:w-40 py-3.5 px-8 bg-rosewood-600 hover:bg-rosewood-800 text-white font-bold text-xl rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition duration-200">
+Yes! ❤️
+</button>
+<button id="btn-no" onclick="handleNoClick()" class="w-full sm:w-40 py-3.5 px-8 bg-sepia-200 hover:bg-sepia-300 text-sepia-800 font-bold text-xl rounded-full shadow-md transition duration-200">
+No 😜
+</button>
+</div>
+​<div id="no-toast" class="hidden mt-6 text-rosewood-600 font-casual text-xl font-bold bg-rosewood-100 py-2 px-4 rounded-xl border border-rosewood-400 inline-block animate-pulse">
+Nice try, Zeena! You can't say no! Try again! 😈
+</div>
+</div>
+</section>
+​<!-- ========================================== -->
+<!-- MAIN TIME CAPSULE CONTENT -->
+<!-- ========================================== -->
+<main id="main-content" class="hidden relative z-10 max-w-5xl mx-auto px-4 py-8 sm:py-16 space-y-20 sm:space-y-32">
+​<!-- HEADER -->
+<header class="text-center space-y-4">
+<span class="px-4 py-1.5 rounded-full bg-sepia-200 text-sepia-800 font-medium text-sm tracking-wider uppercase">
+A Nostalgic Capsule For Nabeela (Zaiboon Bee / Zeena) 🐝
+</span>
+<h1 class="font-romantic text-6xl sm:text-8xl text-sepia-900">
+Zeena: The CEO of Trouble
+</h1>
+<p class="font-casual text-2xl sm:text-3xl text-sepia-700 max-w-2xl mx-auto">
+Take a slow stroll below... flip memory reels, open your letters, solve the secret code, and read our master scroll!
+</p>
+</header>
+​<!-- ========================================== -->
+<!-- SECTION 1: MEMORY REELS -->
+<!-- ========================================== -->
+<section id="memory-reels-section" class="space-y-8 scroll-mt-10">
+<div class="text-center">
+<div class="inline-flex items-center gap-2 text-rosewood-600 font-semibold mb-1">
+<i class="fa-solid fa-film"></i> Section I
+</div>
+<h2 class="font-casual text-4xl sm:text-5xl text-sepia-900 font-bold">Memory Film Reels</h2>
+<p class="text-sepia-700 text-sm sm:text-base">Tap any frame to flip it over and uncover a hidden memory behind!</p>
+</div>
+​<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="memory-reels-container">
+<!-- Memory Reels Render Here -->
+</div>
+</section>
+​<!-- ========================================== -->
+<!-- SECTION 2: OUR LETTERS (7 NAMED ENVELOPES) -->
+<!-- ========================================== -->
+<section id="our-letters" class="space-y-8 scroll-mt-10">
+<div class="text-center">
+<div class="inline-flex items-center gap-2 text-rosewood-600 font-semibold mb-1">
+<i class="fa-solid fa-envelope-open-text"></i> Section II
+</div>
+<h2 class="font-casual text-4xl sm:text-5xl text-sepia-900 font-bold">Letters Just For You</h2>
+<p class="text-sepia-700 text-sm sm:text-base">7 personal envelopes from Aimms, Afreen, Ayfa, Fafa, Ribka, Soufaa, and Juvii. Tap an envelope to unseal it!</p>
+</div>
+​<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8" id="envelopes-container">
+<!-- 7 Named Envelopes Render Here -->
+</div>
+</section>
+​<!-- ========================================== -->
+<!-- SECTION 3: THE EVIDENCE WALL (LOCKED) -->
+<!-- ========================================== -->
+<section id="evidence-wall-section" class="space-y-8 scroll-mt-10">
+<div class="text-center">
+<div class="inline-flex items-center gap-2 text-rosewood-600 font-semibold mb-1">
+<i class="fa-solid fa-lock"></i> Section III
+</div>
+<h2 class="font-casual text-4xl sm:text-5xl text-sepia-900 font-bold">The Evidence Wall</h2>
+<p class="text-sepia-700 text-sm sm:text-base">Top secret vault! Solve the clue to unlock the wall.</p>
+</div>
+​<!-- LOCKED GATE CONTAINER -->
+<div id="evidence-gate" class="max-w-md mx-auto bg-sepia-100 p-8 rounded-3xl border-2 border-sepia-300 shadow-xl text-center space-y-6">
+<div class="w-20 h-20 mx-auto bg-amber-100 rounded-full flex items-center justify-center text-amber-700 text-3xl shadow-inner border border-amber-300">
+<i class="fa-solid fa-key"></i>
+</div>
+​<div>
+<span class="text-xs font-bold uppercase tracking-widest text-sepia-700">SECRET CLUE / HINT</span>
+<p id="evidence-hint-display" class="font-casual text-2xl text-rosewood-800 mt-1 font-bold">
+"Where did we first eat our favorite ice cream?"
+</p>
+</div>
+​<form onsubmit="unlockEvidence(event)" class="space-y-4">
+<div>
+<input type="password" id="evidence-pass-input" placeholder="Enter secret code..." class="w-full px-4 py-3 rounded-xl border border-sepia-300 focus:outline-none focus:ring-2 focus:ring-rosewood-600 text-center text-lg bg-white shadow-inner">
+</div>
+<button type="submit" class="w-full py-3 bg-sepia-800 hover:bg-sepia-900 text-white font-bold rounded-xl shadow-md transition duration-200 flex items-center justify-center gap-2">
+<i class="fa-solid fa-unlock"></i> Unlock Vault
+</button>
+</form>
+​<p id="gate-error-msg" class="hidden text-rosewood-600 font-medium text-sm animate-shake">
+❌ Wrong code, CEO of Trouble! Think again! 🤔
+</p>
+</div>
+​<!-- UNLOCKED POLAROID CORKBOARD -->
+<div id="evidence-board" class="hidden corkboard rounded-3xl p-6 sm:p-10 border-8 border-sepia-800 shadow-2xl space-y-8">
+<div class="flex flex-col sm:flex-row justify-between items-center border-b border-sepia-700/40 pb-4 gap-4">
+<div class="text-center sm:text-left">
+<h3 class="font-romantic text-4xl text-sepia-900">Exhibit A: Unapologetic Memories</h3>
+<p class="text-xs uppercase tracking-wider text-sepia-900 font-bold">Confidential & Declassified</p>
+</div>
+<span class="px-3 py-1 bg-rosewood-600 text-white font-bold text-xs rounded-full uppercase tracking-wider">
+Unlocked 🎉
+</span>
+</div>
+​<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pt-4" id="evidence-polaroids-container">
+<!-- Dynamic Evidence Polaroids Render Here -->
+</div>
+</div>
+</section>
+​<!-- ========================================== -->
+<!-- SECTION 4: MASTER LETTER FROM ALL FRIENDS -->
+<!-- ========================================== -->
+<section id="master-letter-section" class="space-y-8 scroll-mt-10 pb-16">
+<div class="text-center">
+<div class="inline-flex items-center gap-2 text-rosewood-600 font-semibold mb-1">
+<i class="fa-solid fa-scroll"></i> Section IV
+</div>
+<h2 class="font-casual text-4xl sm:text-5xl text-sepia-900 font-bold">One Single Letter From All of Us</h2>
+<p class="text-sepia-700 text-sm sm:text-base">A combined letter signed together with love by Aimms, Afreen, Ayfa, Fafa, Ribka, Soufaa, and Juvii!</p>
+</div>
+​<!-- Parchment Scroll Container -->
+<div class="max-w-3xl mx-auto bg-sepia-50 rounded-3xl p-8 sm:p-14 border-4 border-sepia-300 shadow-2xl relative space-y-6">
+<!-- Top Ribbon Decor -->
+<div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-rosewood-600 text-white text-xs uppercase tracking-widest font-bold px-8 py-2 rounded-full shadow-lg border-2 border-white flex items-center gap-2">
+<i class="fa-solid fa-heart"></i> Combined Friends Letter <i class="fa-solid fa-heart"></i>
+</div>
+​<div class="text-center pt-4 border-b border-sepia-200 pb-4">
+<h3 id="master-letter-title-display" class="font-romantic text-4xl sm:text-5xl text-sepia-900">
+Dearest Nabeela (Zeena & Zaiboon Bee),
+</h3>
+<p class="text-xs font-semibold uppercase tracking-widest text-rosewood-600 mt-1">From Your Whole Squad</p>
+</div>
+​<div id="master-letter-body-display" class="font-casual text-2xl sm:text-3xl text-sepia-900 leading-relaxed space-y-4 whitespace-pre-line">
+<!-- Dynamic Combined Letter injected here -->
+</div>
+​<div class="border-t border-sepia-200 pt-6 text-center">
+<p class="font-romantic text-3xl text-rosewood-600 mb-2">With endless love & forever friendships,</p>
+<div class="flex flex-wrap justify-center gap-3 text-sm font-bold text-sepia-800">
+<span class="px-3 py-1 bg-sepia-200 rounded-full">💖 Aimms</span>
+<span class="px-3 py-1 bg-sepia-200 rounded-full">💖 Afreen</span>
+<span class="px-3 py-1 bg-sepia-200 rounded-full">💖 Ayfa</span>
+<span class="px-3 py-1 bg-sepia-200 rounded-full">💖 Fafa</span>
+<span class="px-3 py-1 bg-sepia-200 rounded-full">💖 Ribka</span>
+<span class="px-3 py-1 bg-sepia-200 rounded-full">💖 Soufaa</span>
+<span class="px-3 py-1 bg-sepia-200 rounded-full">💖 Juvii</span>
+</div>
+</div>
+</div>
+</section>
+​<!-- FOOTER -->
+<footer class="text-center text-sepia-700 text-sm pt-8 border-t border-sepia-200 space-y-2">
+<p class="font-romantic text-3xl text-sepia-900">Made with ❤️ for Nabeela</p>
+<p class="text-xs text-sepia-700">Time Travel Capsule © Always & Forever</p>
+</footer>
+</main>
+​<!-- ========================================== -->
+<!-- LETTER READ MODAL -->
+<!-- ========================================== -->
+<div id="letter-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+<div class="bg-sepia-50 max-w-lg w-full rounded-3xl p-6 sm:p-8 border-4 border-sepia-300 shadow-2xl relative transform transition-all scale-95 opacity-0" id="letter-modal-box">
+<button onclick="closeLetterModal()" class="absolute top-4 right-4 w-10 h-10 bg-sepia-200 hover:bg-sepia-300 rounded-full flex items-center justify-center text-sepia-800 text-xl font-bold transition">
+×
+</button>
+<div class="text-center mb-6">
+<span id="modal-letter-author" class="text-xs uppercase font-bold tracking-widest text-rosewood-600 bg-rosewood-100 px-3 py-1 rounded-full">Letter</span>
+<h3 id="modal-letter-title" class="font-romantic text-4xl text-sepia-900 mt-2">Title</h3>
+</div>
+<div id="modal-letter-body" class="font-casual text-xl sm:text-2xl text-sepia-900 leading-relaxed max-h-[60vh] overflow-y-auto pr-2 space-y-4 whitespace-pre-line">
+<!-- Content injected dynamically -->
+</div>
+<div class="mt-8 text-center">
+<button onclick="closeLetterModal()" class="px-6 py-2.5 bg-sepia-800 hover:bg-sepia-900 text-white font-bold rounded-full text-sm">
+Close Letter
+</button>
+</div>
+</div>
+</div>
+​<!-- ========================================== -->
+<!-- SECRET ADMIN MODAL (For Creator Only) -->
+<!-- ========================================== -->
+<button onclick="openAdminPinPrompt()" class="fixed bottom-3 right-3 z-40 w-8 h-8 rounded-full bg-sepia-300/40 hover:bg-sepia-400 text-sepia-700 flex items-center justify-center text-xs opacity-40 hover:opacity-100 transition" title="Admin Settings (Shift+A)">
+<i class="fa-solid fa-key"></i>
+</button>
+​<div id="admin-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+<div class="bg-white max-w-2xl w-full rounded-2xl p-6 border border-slate-200 shadow-2xl max-h-[90vh] overflow-y-auto">
+<div class="flex justify-between items-center border-b pb-3 mb-4">
+<div>
+<h3 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-sliders text-rosewood-600"></i> Creator Admin Settings</h3>
+<p class="text-xs text-slate-500">Edit content directly. Saved safely on your device!</p>
+</div>
+<button onclick="closeAdminModal()" class="text-slate-400 hover:text-slate-600 text-2xl font-bold">×</button>
+</div>
+​<!-- PIN ENTRY FOR ADMIN -->
+<div id="admin-pin-view" class="space-y-4 py-6 text-center">
+<i class="fa-solid fa-lock text-4xl text-slate-400"></i>
+<h4 class="font-bold text-slate-700">Enter Admin PIN</h4>
+<p class="text-xs text-slate-500">Default PIN is <code class="bg-slate-100 px-2 py-1 rounded">1234</code></p>
+<input type="password" id="admin-pin-input" placeholder="PIN" class="px-4 py-2 border rounded-lg text-center font-bold tracking-widest text-lg w-36 mx-auto block">
+<button onclick="verifyAdminPin()" class="px-6 py-2 bg-rosewood-600 text-white font-bold rounded-lg hover:bg-rosewood-800 text-sm">
+Access Editor
+</button>
+</div>
+​<!-- ADMIN EDITOR CONTENT -->
+<div id="admin-editor-view" class="hidden space-y-6">
+​<!-- 1. Evidence Gate -->
+<div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+<h4 class="font-bold text-sm text-slate-800 uppercase tracking-wider">1. Evidence Wall Passcode</h4>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div>
+<label class="block text-xs font-semibold text-slate-600 mb-1">Passcode Solution</label>
+<input type="text" id="admin-edit-pass" class="w-full text-sm p-2 border rounded bg-white">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-600 mb-1">Clue / Hint</label>
+<input type="text" id="admin-edit-hint" class="w-full text-sm p-2 border rounded bg-white">
+</div>
+</div>
+</div>
+​<!-- 2. Edit 7 Named Letters -->
+<div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+<h4 class="font-bold text-sm text-slate-800 uppercase tracking-wider">2. Edit The 7 Individual Letters</h4>
+<div id="admin-letters-editor" class="space-y-3"></div>
+</div>
+​<!-- 3. Edit Memory Reels -->
+<div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+<h4 class="font-bold text-sm text-slate-800 uppercase tracking-wider">3. Memory Reels</h4>
+<div id="admin-reels-editor" class="space-y-3"></div>
+</div>
+​<!-- 4. Edit Master Single Letter -->
+<div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+<h4 class="font-bold text-sm text-slate-800 uppercase tracking-wider">4. Combined Master Letter</h4>
+<div>
+<label class="block text-xs font-semibold text-slate-600 mb-1">Letter Content</label>
+<textarea id="admin-master-letter-text" class="w-full text-sm p-2 border rounded bg-white h-36"></textarea>
+</div>
+</div>
+​<div class="flex justify-between items-center pt-4 border-t">
+<button onclick="resetDataToDefault()" class="text-xs text-red-600 hover:underline font-semibold">
+Reset All to Defaults
+</button>
+<div class="space-x-2">
+<button onclick="closeAdminModal()" class="px-4 py-2 border rounded-lg text-sm text-slate-600 hover:bg-slate-100">Cancel</button>
+<button onclick="saveAdminChanges()" class="px-6 py-2 bg-emerald-600 text-white font-bold rounded-lg hover:bg-emerald-700 text-sm">
+Save Changes
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+​<!-- ========================================== -->
+<!-- JAVASCRIPT APP LOGIC -->
+<!-- ========================================== -->
+<script>
+const defaultAppData = {
+evidencePass: "paris2023",
+evidenceHint: "The secret date or location of our favorite hangout spot!",
+​memoryReels: [
+{
+title: "First Ice Cream Date 🍦",
+caption: "Nabeela spilled mint chocolate chip, but couldn't stop laughing!",
+image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=600&q=80"
+},
+{
+title: "Late Night Stargazing ✨",
+caption: "We sat outside until 3 AM making wishes on falling stars.",
+image: "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=600&q=80"
+},
+{
+title: "CEO of Trouble in Action 🎶",
+caption: "Zeena sang every single lyric at the top of her lungs!",
+image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80"
+}
+],
+​letters: [
+{
+sender: "Aimms",
+title: "To My Dearest Nabeela 🌸",
+preview: "A sweet note from Aimms...",
+content: "Dearest Nabeela (Zaiboon Bee),\n\nYou bring so much energy and brightness into my life! Every time we hang out, it's guaranteed laughter. Never change being the CEO of Trouble that we all adore so much!\n\nLove always,\nAimms"
+},
+{
+sender: "Afreen",
+title: "For Our CEO of Trouble 👑",
+preview: "Special thoughts from Afreen...",
+content: "Hey Zeena!\n\nLooking back at all our funny moments, I wouldn't trade our friendship for anything in the world. Thank you for always listening with a big heart.\n\nWith love,\nAfreen"
+},
+{
+sender: "Ayfa",
+title: "Nostalgia & Sunshine ☀️",
+preview: "Warm wishes from Ayfa...",
+content: "Dear Nabeela,\n\nFrom silly jokes to deep midnight conversations, you make every second memorable. Here's to making 100 more memories together!\n\nHugs,\nAyfa"
+},
+{
+sender: "Fafa",
+title: "To Zaiboon Bee 🐝",
+preview: "A sweet message from Fafa...",
+content: "Oye Zaiboon Bee!\n\nYou are pure sunshine and joy! Stay shining bright and keeping everyone on their toes!\n\nBestie vibes,\nFafa"
+},
+{
+sender: "Ribka",
+title: "Unstoppable Memories ✨",
+preview: "Heartfelt letter from Ribka...",
+content: "Dearest Zeena,\n\nThank you for being the most genuine, funny, and supportive friend anyone could ever ask for. You make life so much more fun!\n\nLots of love,\nRibka"
+},
+{
+sender: "Soufaa",
+title: "Always & Forever 💕",
+preview: "A loving note from Soufaa...",
+content: "Hey Nabeela!\n\nTime travels fast, but our bond remains timeless. I'm so grateful to have you in my corner always!\n\nLove,\nSoufaa"
+},
+{
+sender: "Juvii",
+title: "Forever Besties 💫",
+preview: "A special note from Juvii...",
+content: "Dearest Nabeela (Zeena)!\n\nYou make every ordinary moment feel extraordinary with your infectious energy! Thank you for being such an incredible friend and bringing so much joy to all of us.\n\nBig hugs & love,\nJuvii"
+}
+],
+​evidencePolaroids: [
+{ title: "CEO of Trouble at Work", date: "Oct 2022", image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=500&q=80" },
+{ title: "Best Chai Spot Ever", date: "Nov 2022", image: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=80" },
+{ title: "The Unplanned Roadtrip", date: "Jan 2023", image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=500&q=80" },
+{ title: "Sunset @ The Pier", date: "Mar 2023", image: "https://images.unsplash.com/photo-1495616811223-4d98c6e9c869?auto=format&fit=crop&w=500&q=80" },
+{ title: "Baking Disaster #4", date: "May 2023", image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80" },
+{ title: "Victory Celebration!", date: "Jul 2023", image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=500&q=80" }
+],
+​masterLetter: "Dearest Nabeela (Zaiboon Bee & Zeena),\n\nIf we could sum up our friendship in one sentence, it would be that life with you is never boring! You are the official CEO of Trouble, the queen of chaotic fun, and the sweetest soul in our group.\n\nThrough every phase, every laugh, and every adventure, having you as our friend makes everything brighter. Thank you for being yourself—unapologetically awesome, incredibly caring, and endlessly sweet.\n\nWe love you to the moon and back!"
+};
+​let appData = {};
+​window.addEventListener('DOMContentLoaded', () => {
+loadAppData();
+renderMemoryReels();
+renderEnvelopes();
+renderEvidenceBoard();
+renderMasterLetter();
+​window.addEventListener('keydown', (e) => {
+if (e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+openAdminPinPrompt();
+}
+});
+});
+​function loadAppData() {
+const saved = localStorage.getItem('zaiboon_time_capsule_data_v3');
+if (saved) {
+try {
+appData = JSON.parse(saved);
+} catch(e) {
+appData = JSON.parse(JSON.stringify(defaultAppData));
+}
+} else {
+appData = JSON.parse(JSON.stringify(defaultAppData));
+}
+document.getElementById('evidence-hint-display').innerText = "${appData.evidenceHint}";
+}
+​function saveAppData() {
+localStorage.setItem('zaiboon_time_capsule_data_v3', JSON.stringify(appData));
+}
+​function handleNoClick() {
+const toast = document.getElementById('no-toast');
+toast.classList.remove('hidden');
+​const btnNo = document.getElementById('btn-no');
+const randomX = (Math.random() - 0.5) * 40;
+const randomY = (Math.random() - 0.5) * 20;
+btnNo.style.transform = translate(${randomX}px, ${randomY}px);
+}
+​function enterMemoryCapsule() {
+const landing = document.getElementById('landing-screen');
+const main = document.getElementById('main-content');
+​landing.classList.add('opacity-0', 'pointer-events-none');
+setTimeout(() => {
+landing.classList.add('hidden');
+main.classList.remove('hidden');
+confetti({
+particleCount: 100,
+spread: 70,
+origin: { y: 0.6 }
+});
+}, 800);
+}
+​function renderMemoryReels() {
+const container = document.getElementById('memory-reels-container');
+container.innerHTML = '';
+​appData.memoryReels.forEach((reel, index) => {
+const reelEl = document.createElement('div');
+reelEl.className = "flip-card h-72 cursor-pointer";
+reelEl.onclick = () => reelEl.classList.toggle('flipped');
+​reelEl.innerHTML = `
+<div class="flip-card-inner border-2 border-sepia-200 rounded-2xl shadow-xl">
+<div class="flip-card-front bg-white p-3 flex flex-col justify-between items-center text-center">
+<div class="w-full h-48 bg-slate-100 rounded-xl overflow-hidden relative">
+<img src="${reel.image}" class="w-full h-full object-cover">
+<div class="absolute inset-0 bg-black/20"></div>
+</div>
+<div class="py-2">
+<h4 class="font-casual text-2xl font-bold text-sepia-900">${reel.title}</h4>
+<span class="text-xs text-rosewood-600 font-bold flex items-center justify-center gap-1">
+<i class="fa-solid fa-rotate text-xs"></i> Tap to flip memory
+</span>
+</div>
+</div>
+​<div class="flip-card-back bg-sepia-800 text-white p-6 rounded-2xl flex flex-col justify-center items-center text-center space-y-3">
+<i class="fa-solid fa-camera-retro text-3xl text-amber-300"></i>
+<h4 class="font-casual text-3xl font-bold text-amber-200">{reel.title}</h4>
+<p class="font-casual text-xl text-sepia-100 leading-snug">{reel.caption}</p>
+<span class="text-xs text-sepia-300 italic pt-2">Tap again to flip back</span>
+</div>
+</div>
+`;
+container.appendChild(reelEl);
+});
+}
+​function renderEnvelopes() {
+const container = document.getElementById('envelopes-container');
+container.innerHTML = '';
+​appData.letters.forEach((letter, index) => {
+const env = document.createElement('div');
+env.className = 'envelope-wrapper';
+env.innerHTML = <div class="envelope flex flex-col justify-between p-5 text-center" onclick="openLetterModal(${index})"> <div class="envelope-flap"></div> <div class="wax-seal"> <i class="fa-solid fa-heart"></i> </div> <div class="relative z-10 pt-10 space-y-1"> <span class="text-xs font-bold text-white bg-rosewood-600 px-3 py-1 rounded-full inline-block shadow"> From: ${letter.sender} </span> <h4 class="font-casual text-2xl text-sepia-900 font-bold mt-1">${letter.title}</h4> <p class="text-xs text-sepia-700 italic truncate">${letter.preview}</p> </div> </div>;
+container.appendChild(env);
+});
+}
+​function openLetterModal(index) {
+const letter = appData.letters[index];
+document.getElementById('modal-letter-author').innerText = From: ${letter.sender};
+document.getElementById('modal-letter-title').innerText = letter.title;
+document.getElementById('modal-letter-body').innerText = letter.content;
+​const modal = document.getElementById('letter-modal');
+const box = document.getElementById('letter-modal-box');
+​modal.classList.remove('hidden');
+setTimeout(() => {
+box.classList.remove('scale-95', 'opacity-0');
+box.classList.add('scale-100', 'opacity-100');
+}, 10);
+}
+​function closeLetterModal() {
+const modal = document.getElementById('letter-modal');
+const box = document.getElementById('letter-modal-box');
+​box.classList.remove('scale-100', 'opacity-100');
+box.classList.add('scale-95', 'opacity-0');
+setTimeout(() => {
+modal.classList.add('hidden');
+}, 200);
+}
+​function unlockEvidence(e) {
+e.preventDefault();
+const input = document.getElementById('evidence-pass-input').value.trim();
+const gate = document.getElementById('evidence-gate');
+const board = document.getElementById('evidence-board');
+const errorMsg = document.getElementById('gate-error-msg');
+​if (input.toLowerCase() === appData.evidencePass.toLowerCase()) {
+errorMsg.classList.add('hidden');
+gate.classList.add('hidden');
+board.classList.remove('hidden');
+​confetti({
+particleCount: 120,
+spread: 80,
+origin: { y: 0.5 }
+});
+} else {
+errorMsg.classList.remove('hidden');
+gate.classList.add('animate-shake');
+setTimeout(() => gate.classList.remove('animate-shake'), 600);
+}
+}
+​function renderEvidenceBoard() {
+const container = document.getElementById('evidence-polaroids-container');
+container.innerHTML = '';
+​const classes = ['polaroid-1', 'polaroid-2', 'polaroid-3', 'polaroid-4'];
+​appData.evidencePolaroids.forEach((item, index) => {
+const rotationClass = classes[index % classes.length];
+const pol = document.createElement('div');
+pol.className = bg-white p-3 pb-5 shadow-2xl rounded-sm border border-slate-200 transition-all duration-300 ${rotationClass};
+pol.innerHTML = <div class="h-48 sm:h-56 w-full bg-slate-100 overflow-hidden mb-3"> <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover"> </div> <div class="text-center font-casual"> <h4 class="text-2xl font-bold text-sepia-900 leading-tight">${item.title}</h4> <span class="text-xs text-sepia-700 uppercase tracking-widest">${item.date}</span> </div>;
+container.appendChild(pol);
+});
+}
+​function renderMasterLetter() {
+document.getElementById('master-letter-body-display').innerText = appData.masterLetter;
+}
+​function openAdminPinPrompt() {
+const modal = document.getElementById('admin-modal');
+document.getElementById('admin-pin-view').classList.remove('hidden');
+document.getElementById('admin-editor-view').classList.add('hidden');
+document.getElementById('admin-pin-input').value = '';
+modal.classList.remove('hidden');
+}
+​function verifyAdminPin() {
+const pin = document.getElementById('admin-pin-input').value;
+if (pin === '1234') {
+document.getElementById('admin-pin-view').classList.add('hidden');
+document.getElementById('admin-editor-view').classList.remove('hidden');
+populateAdminForm();
+} else {
+alert('Incorrect Admin PIN!');
+}
+}
+​function closeAdminModal() {
+document.getElementById('admin-modal').classList.add('hidden');
+}
+​function populateAdminForm() {
+document.getElementById('admin-edit-pass').value = appData.evidencePass;
+document.getElementById('admin-edit-hint').value = appData.evidenceHint;
+document.getElementById('admin-master-letter-text').value = appData.masterLetter;
+​const lettersDiv = document.getElementById('admin-letters-editor');
+lettersDiv.innerHTML = appData.letters.map((l, i) => <div class="p-3 border rounded bg-white text-xs space-y-2"> <span class="font-bold text-rosewood-600">Letter #${i+1} from: ${l.sender}</span> <input type="text" id="admin-let-title-${i}" value="${l.title}" class="w-full p-1 border rounded" placeholder="Title"> <textarea id="admin-let-content-${i}" class="w-full p-1 border rounded h-20" placeholder="Content">${l.content}</textarea> </div>).join('');
+​const reelsDiv = document.getElementById('admin-reels-editor');
+reelsDiv.innerHTML = appData.memoryReels.map((s, i) => <div class="p-3 border rounded bg-white text-xs space-y-2"> <span class="font-bold text-slate-700">Memory Reel #${i+1}</span> <input type="text" id="admin-reel-title-${i}" value="${s.title}" class="w-full p-1 border rounded" placeholder="Title"> <input type="text" id="admin-reel-cap-${i}" value="${s.caption}" class="w-full p-1 border rounded" placeholder="Caption"> <input type="text" id="admin-reel-img-${i}" value="${s.image}" class="w-full p-1 border rounded" placeholder="Image URL"> </div>).join('');
+}
+​function saveAdminChanges() {
+appData.evidencePass = document.getElementById('admin-edit-pass').value.trim();
+appData.evidenceHint = document.getElementById('admin-edit-hint').value.trim();
+appData.masterLetter = document.getElementById('admin-master-letter-text').value;
+​appData.letters.forEach((l, i) => {
+l.title = document.getElementById(admin-let-title-${i}).value;
+l.content = document.getElementById(admin-let-content-${i}).value;
+});
+​appData.memoryReels.forEach((s, i) => {
+s.title = document.getElementById(admin-reel-title-${i}).value;
+s.caption = document.getElementById(admin-reel-cap-${i}).value;
+s.image = document.getElementById(admin-reel-img-${i}).value;
+});
+​saveAppData();
+loadAppData();
+renderMemoryReels();
+renderEnvelopes();
+renderMasterLetter();
+closeAdminModal();
+alert('All changes saved successfully!');
+}
+​function resetDataToDefault() {
+if (confirm('Reset all content back to original defaults?')) {
+appData = JSON.parse(JSON.stringify(defaultAppData));
+saveAppData();
+loadAppData();
+renderMemoryReels();
+renderEnvelopes();
+renderEvidenceBoard();
+renderMasterLetter();
+closeAdminModal();
+}
+}
+</script>
+</body>
+</html>
